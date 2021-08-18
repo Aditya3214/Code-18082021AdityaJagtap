@@ -1,0 +1,79 @@
+try:
+    import boto3
+    import os
+    import sys
+    import json
+except Exception as e:
+    print(e)
+
+AWS_ACCESS_KEY = "AKIAQ5A66DPHOYRN3R52"
+AWS_SECRET_KEY = "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"
+AWS_SQS_QUEUE_NAME = "XXXX"
+
+
+class SQSQueue(object):
+
+    def __init__(self, queueName=None):
+        self.resource = boto3.resource('sqs', region_name='us-east-1',
+                                       aws_access_key_id=AWS_ACCESS_KEY,
+                                       aws_secret_access_key=AWS_SECRET_KEY)
+        self.queue = self.resource.get_queue_by_name(QueueName=AWS_SQS_QUEUE_NAME)
+        self.QueueName = queueName
+
+    def send(self, Message={}):
+        data = json.dumps(Message)
+        response = self.queue.send_message(MessageBody=data)
+        return response
+
+    def receive(self):
+        try:
+            queue = self.resource.get_queue_by_name(QueueName=self.QueueName)
+            for message in queue.receive_messages():
+                data = message.body
+                data = json.loads(data)
+                message.delete()
+        except Exception:
+            print(e)
+            return []
+        return data
+
+
+from time import sleep
+
+q = SQSQueue(queueName=AWS_SQS_QUEUE_NAME)
+
+for i in range(1, 10):
+    Message = {
+        "name": "Aditya Jagtap Please Come ",
+        "count": str(i), }
+
+    print(Message)
+    sleep(2)
+    response = q.send(Message=Message)
+
+try:
+    import boto3
+    import os
+    import sys
+    import json
+except Exception as e:
+    print(e)
+client = boto3.client('sns', region_name='us-east-1',
+                               aws_access_key_id=AWS_ACCESS_KEY,
+                               aws_secret_access_key=AWS_SECRET_KEY)
+response = client.list_topics(
+)
+
+print(response)
+
+from time import sleep
+for x in range(1, 10):
+    response = client.publish(
+    TopicArn='arn:aws:sns:us-east-1:586073383152:name',
+    Message=json.dumps({'name': 'Aditya Jagtap Please Come ', 'count': str(1212)}),
+    Subject='test subject',
+)
+    sleep(2)
+    print(response)
+    break
+    print(response)
