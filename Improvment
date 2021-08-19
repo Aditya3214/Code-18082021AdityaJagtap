@@ -1,0 +1,8 @@
+AWS provides priviliges that on every layer we can implement security in AWS. 
+So Coming to Infrastructure for my infrastructure create only that much user that are only required and give only that access on which users are going to work.
+This Is called Privilage Management.
+If any outside Auditor wants to access my system we also have policy for that means we will create a role and attach security policy.In IAM we have a policy for every user to 
+set a boundary condition.
+For eg: If I gave Lambda full access then if I want to give only 2 access of lambda then i can specify from boundary condition.
+So Firstly comes IAM from which I can provide Secure Access Grant.
+In S3 we also have security Features like Public Private Access, Policy Based Access Access Control List and Encryption
